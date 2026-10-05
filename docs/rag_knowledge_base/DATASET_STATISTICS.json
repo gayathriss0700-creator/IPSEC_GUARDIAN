@@ -1,0 +1,41 @@
+{
+  "documents": 26,
+  "markdown_files_in_zip": 27,
+  "knowledge_base_topic_documents": 26,
+  "faq_questions": 100,
+  "approximate_words": 13971,
+  "technologies": [
+    "IPsec",
+    "ESP",
+    "AH",
+    "IKE",
+    "IKEv1",
+    "IKEv2",
+    "ISAKMP",
+    "NAT-T",
+    "SPD",
+    "SAD",
+    "DH",
+    "PFS",
+    "AES",
+    "AES-GCM",
+    "HMAC",
+    "X.509/PKI",
+    "Cisco IOS/IOS XE",
+    "strongSwan",
+    "Linux",
+    "Windows IPsec"
+  ],
+  "protocols": [
+    "ESP/IP protocol 50",
+    "AH/IP protocol 51",
+    "IKE/UDP 500",
+    "NAT-T/UDP 4500"
+  ],
+  "platforms": [
+    "Cisco IOS/IOS XE",
+    "strongSwan Linux",
+    "Windows IPsec concepts",
+    "generic firewall/router IPsec"
+  ]
+}

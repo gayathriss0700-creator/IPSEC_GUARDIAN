@@ -1,0 +1,2851 @@
+[
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIPsec is a suite of standards that provides security services at the IP layer. Its principal traffic-protection protocols are ESP and AH; automated key management is normally performed by IKE. RFC 4301 defines the IPsec security architecture.",
+    "word_count": 39
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nIPsec protects IP traffic against eavesdropping, modification, spoofing of protected traffic, and replay, depending on the selected algorithms and policy.",
+    "word_count": 22
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\n1. A policy determines which traffic requires protection.\n2. IKE authenticates peers and negotiates cryptographic parameters.\n3. IKE creates Security Associations.\n4. ESP or AH applies the negotiated protection to matching packets.\n5. The receiver validates, decrypts when applicable, checks anti-replay state, and applies policy.",
+    "word_count": 49
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\n- Security Policy Database (SPD): traffic-policy decisions.\n- Security Association Database (SAD): active SA state.\n- IKE daemon/state machine.\n- ESP/AH processing.\n- Cryptographic algorithms and keys.\n- Traffic selectors or policy selectors.\n- Peer identities and authentication credentials.",
+    "word_count": 42
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nA practical site-to-site design normally defines local/remote gateways, protected subnets, IKE proposal, authentication method, IPsec/CHILD_SA proposal, lifetimes/rekey behavior, and firewall/NAT treatment.",
+    "word_count": 24
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nPeer addresses; IKE version; authentication method; encryption; integrity/PRF; Diffie-Hellman group; ESP mode; ESP encryption/integrity or AEAD; traffic selectors; PFS/rekey DH; DPD/liveness; NAT-T.",
+    "word_count": 25
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE CONFIGURATION:\nLOCAL_NETWORK=192.168.10.0/24\nREMOTE_NETWORK=192.168.20.0/24\nLOCAL_GATEWAY=203.0.113.10\nREMOTE_GATEWAY=203.0.113.20\nUse these only as fictional documentation values.",
+    "word_count": 15
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nConfusing IKE SA with IPsec/CHILD_SA; encrypting the wrong traffic; mismatched proposals; forgetting NAT exemption where required; treating ESP as TCP/UDP; exposing management services on the VPN gateway.",
+    "word_count": 30
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 9,
+    "section": "## Troubleshooting steps",
+    "text": "## Troubleshooting steps\nCheck underlay reachability; verify UDP 500/4500 reachability as applicable; inspect IKE negotiation; compare proposals and identities; inspect CHILD_SA/IPsec counters; verify routes and traffic selectors; check NAT/firewall logs.",
+    "word_count": 30
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nPrefer IKEv2 for new deployments when supported. Prefer modern AEAD such as AES-GCM where interoperability permits. Disable obsolete algorithms and unnecessary IKEv1 modes. Use certificates for larger deployments when practical; protect PSKs strongly when PSK authentication is used.",
+    "word_count": 41
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nVPN, PKI, NAT-T, PFS, routing, firewall policy, cryptographic suites, traffic selectors.",
+    "word_count": 14
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 12,
+    "section": "## FAQ",
+    "text": "## FAQ\n**What does IPsec protect?** IP traffic selected by policy; it does not automatically protect every packet.\n**Is IKE itself the encrypted application tunnel?** No. IKE negotiates and maintains security state; ESP normally protects the user traffic.",
+    "word_count": 38
+  },
+  {
+    "document": "01_ipsec_fundamentals.md",
+    "chunk": 13,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIPsec architecture describes how policy, security associations, key management, and packet-processing functions cooperate to protect IP traffic.",
+    "word_count": 19
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nIt provides a consistent model for deciding whether traffic is bypassed, discarded, or protected and for applying the correct SA.",
+    "word_count": 22
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nOutbound traffic is classified against policy and, when protection is required, associated with an outbound SA. Inbound traffic is checked against an inbound SA and security policy. IKE supplies dynamically negotiated SA parameters and keys.",
+    "word_count": 39
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\n- SPD: policy rules.\n- SAD: inbound/outbound SA records.\n- Security protocol: ESP or AH.\n- IKE: key-management/control plane.\n- Security gateway: router/firewall/VPN concentrator.\n- Traffic selectors: source, destination, protocol, and optional ports.",
+    "word_count": 36
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nArchitectures can be host-to-host, host-to-gateway, or gateway-to-gateway. Tunnel mode is common for gateway VPNs because it protects an entire inner IP packet.",
+    "word_count": 25
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nMode, selectors, SA direction, SPI, algorithms, key lifetimes, peer identity, gateway addresses, anti-replay settings.",
+    "word_count": 17
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nA gateway at LOCAL_GATEWAY protects LOCAL_NETWORK to REMOTE_NETWORK through an ESP tunnel to REMOTE_GATEWAY.",
+    "word_count": 16
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nAssuming one SA is bidirectional; ignoring that an SA is directional; mixing IKE policy with ESP policy; allowing cleartext bypass accidentally.",
+    "word_count": 24
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nDetermine whether failure is underlay, IKE, CHILD_SA/IPsec, policy, routing, or application-layer. Check both inbound and outbound state.",
+    "word_count": 19
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse least-privilege selectors. Avoid broad 0.0.0.0/0 selectors unless deliberately designing full-tunnel or remote-access policy. Protect management plane separately.",
+    "word_count": 21
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nSPD, SAD, SA, SPI, IKE, ESP, AH, traffic selectors.",
+    "word_count": 12
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 12,
+    "section": "## FAQ",
+    "text": "## FAQ\n**Is an SA bidirectional?** No. An IPsec SA is unidirectional; bidirectional communication normally uses a pair.\n**What chooses an SA?** Policy/selector processing plus SA state, including the SPI for inbound IPsec processing.",
+    "word_count": 34
+  },
+  {
+    "document": "02_ipsec_architecture.md",
+    "chunk": 13,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 1,
+    "section": "## Protocol table",
+    "text": "## Protocol table\n| Protocol | IP protocol number | TCP/UDP port | Purpose |\n|---|---:|---|---|\n| ESP | 50 | None | Confidentiality, integrity/authentication, anti-replay |\n| AH | 51 | None | Integrity, data-origin authentication, anti-replay |\n| IKE | UDP | 500 | Key management and negotiation |\n| IKE with NAT-T | UDP | 4500 | IKE and UDP-encapsulated ESP through NAT |\n\nESP and AH are IP protocols, not TCP/UDP services. They therefore do not have a TCP or UDP \"port 50\" or \"port 51\". UDP 500/4500 are for IKE/NAT-T.",
+    "word_count": 95
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 2,
+    "section": "## OSI/TCP-IP layer",
+    "text": "## OSI/TCP-IP layer\nESP/AH operate at the IP/network layer. IKE is a key-management protocol carried over UDP.",
+    "word_count": 17
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 3,
+    "section": "## How protocols work together",
+    "text": "## How protocols work together\nIKE authenticates peers and negotiates parameters. ESP/AH then protect selected traffic according to the resulting SAs.",
+    "word_count": 21
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 4,
+    "section": "## Security properties",
+    "text": "## Security properties\nESP can provide confidentiality plus integrity/authentication and anti-replay. AH provides integrity/data-origin authentication but not confidentiality. Modern deployments generally favor ESP.",
+    "word_count": 23
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 5,
+    "section": "## Common use",
+    "text": "## Common use\nESP tunnel mode: site-to-site VPN. ESP transport mode: host-to-host protection. IKEv2: negotiation and SA management.",
+    "word_count": 18
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 6,
+    "section": "## Configuration considerations",
+    "text": "## Configuration considerations\nFirewall policy must allow the correct protocol/ports. With NAT-T, ESP is carried inside UDP 4500. Without NAT, native ESP protocol 50 can be used.",
+    "word_count": 27
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 7,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nIf UDP 500 works but ESP does not, inspect protocol 50 filtering. If NAT exists, check whether both peers switch to UDP 4500. Do not troubleshoot ESP by looking for TCP port 50.",
+    "word_count": 35
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 8,
+    "section": "## RFC references",
+    "text": "## RFC references\nRFC 4301, RFC 4302, RFC 4303, RFC 7296, RFC 3947, RFC 3948.",
+    "word_count": 15
+  },
+  {
+    "document": "03_ipsec_protocols.md",
+    "chunk": 9,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nAH is IP protocol 51 and provides connectionless integrity, data-origin authentication, and optional anti-replay protection.",
+    "word_count": 17
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nAH can authenticate selected portions of an IP packet without providing confidentiality.",
+    "word_count": 14
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nAH inserts an authentication header containing a Security Parameters Index (SPI), sequence number, and integrity check value. Mutable fields are treated according to AH processing rules.",
+    "word_count": 30
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nNext Header; Payload Length; SPI; Sequence Number; Integrity Check Value; SA.",
+    "word_count": 14
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nAH can be used in transport or tunnel mode, but it is uncommon in modern VPNs because NAT changes fields that AH authenticates and ESP can normally provide the needed services.",
+    "word_count": 34
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nAuthentication/integrity algorithm, SA, SPI, anti-replay window, mode, traffic selectors.",
+    "word_count": 12
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE CONFIGURATION: A lab-only host-to-host policy could select AH transport mode for a controlled experiment. Prefer ESP for normal VPN deployments.",
+    "word_count": 23
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nExpecting AH to encrypt data; allowing AH through a firewall as TCP/UDP; assuming AH is NAT-friendly.",
+    "word_count": 19
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nVerify IP protocol 51 reachability, SA state, algorithm match, SPI state, and whether NAT is altering authenticated header information.",
+    "word_count": 21
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nAH does not provide confidentiality and is generally less interoperable with NAT. Use ESP unless AH is required by a specific, justified design.",
+    "word_count": 26
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nESP, integrity, data-origin authentication, transport mode, tunnel mode, NAT-T.",
+    "word_count": 12
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 12,
+    "section": "## FAQ",
+    "text": "## FAQ\n**Does AH encrypt?** No.\n**What is AH's IP protocol number?** 51.",
+    "word_count": 13
+  },
+  {
+    "document": "04_ah.md",
+    "chunk": 13,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nESP is IP protocol 50 and is the principal IPsec traffic-protection protocol.",
+    "word_count": 14
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nESP provides confidentiality when encryption is enabled, integrity/data-origin authentication when an integrity mechanism is selected, and anti-replay protection.",
+    "word_count": 20
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nIn tunnel mode, ESP protects an entire inner IP packet and adds an outer IP header. In transport mode, ESP protects the transport payload and selected parts of the original IP packet. ESP uses an SPI and sequence number to identify the SA and support replay protection.",
+    "word_count": 51
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nSPI, sequence number, encrypted payload, padding, next-header field, integrity/authentication data when applicable.",
+    "word_count": 15
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nChoose an ESP suite. Modern configurations commonly use an AEAD suite such as AES-GCM, or encryption plus a separate integrity algorithm where required for interoperability.",
+    "word_count": 28
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nEncryption/AEAD algorithm, key size, integrity algorithm if separate, mode, PFS/rekey DH, lifetimes, anti-replay.",
+    "word_count": 16
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE CONFIGURATION:\nESP proposal: AES-256-GCM, tunnel mode, PFS using an agreed modern DH group. Exact syntax is vendor-specific.",
+    "word_count": 20
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nTreating ESP as UDP/TCP; selecting encryption without integrity; mismatching GCM vs CBC/HMAC suites; forgetting NAT-T.",
+    "word_count": 18
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCheck negotiated CHILD_SA/Phase 2; compare ESP proposals; inspect packet counters; verify protocol 50 or UDP 4500; check traffic selectors and routes.",
+    "word_count": 23
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nPrefer authenticated encryption (AEAD), such as AES-GCM, where supported. Avoid obsolete DES/3DES and weak integrity options. Do not rely on confidentiality alone.",
+    "word_count": 25
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nCHILD_SA, transform/proposal, PFS, NAT-T, tunnel mode.",
+    "word_count": 9
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 12,
+    "section": "## FAQ",
+    "text": "## FAQ\n**What port does ESP use?** None; ESP is IP protocol 50.\n**Can ESP provide integrity without encryption?** IPsec permits ESP configurations providing integrity without confidentiality, but confidentiality without integrity is not recommended.",
+    "word_count": 34
+  },
+  {
+    "document": "05_esp.md",
+    "chunk": 13,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIKE is the key-management protocol used with IPsec to authenticate peers, negotiate cryptographic parameters, establish SAs, and maintain/rekey them.",
+    "word_count": 21
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nIt avoids manually configuring every traffic-encryption key and provides authenticated negotiation.",
+    "word_count": 13
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nIKE establishes control-plane security, authenticates the peers, negotiates cryptographic transforms, and creates IPsec SAs. IKEv2 uses IKE_SA_INIT followed by IKE_AUTH for initial setup; subsequent exchanges manage CHILD_SAs and other state.",
+    "word_count": 34
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nInitiator, responder, IKE SA, CHILD_SA/IPsec SA, proposals, identities, authentication, DH key exchange, traffic selectors, rekeying.",
+    "word_count": 18
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nIKE policy/proposal is distinct from the ESP/IPsec proposal. Both peers need at least one compatible combination.",
+    "word_count": 19
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nIKE version, encryption, integrity/PRF, DH group, authentication method, identity, lifetimes/rekey, NAT detection, liveness.",
+    "word_count": 16
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nA fictional IKEv2 configuration can use AES-GCM, a modern DH group, and certificate or PSK authentication, but exact names are platform-specific.",
+    "word_count": 23
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nMixing IKE and ESP algorithms; wrong identity; wrong PSK; mismatched DH; firewall blocking UDP 500/4500.",
+    "word_count": 18
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nStart with UDP reachability, then identify whether failure is IKE_SA_INIT, IKE_AUTH, or CHILD_SA creation. Compare proposals and authentication data.",
+    "word_count": 21
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nPrefer IKEv2. Use strong algorithms and authentication. Protect PSKs and private keys. Minimize exposed management services.",
+    "word_count": 19
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nIKEv1, IKEv2, ISAKMP, SA, DH, PFS, NAT-T.",
+    "word_count": 10
+  },
+  {
+    "document": "06_ike.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIKEv1 is the original Internet Key Exchange protocol, defined by a family of RFCs including RFC 2409 and related ISAKMP/DOI documents. It has been superseded by IKEv2.",
+    "word_count": 29
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nIKEv1 negotiates an ISAKMP/IKE security association and then IPsec SAs.",
+    "word_count": 12
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nCommon terminology uses Phase 1 and Phase 2. Phase 1 establishes an authenticated ISAKMP SA, using Main Mode or Aggressive Mode. Phase 2 commonly uses Quick Mode to negotiate IPsec SAs.",
+    "word_count": 35
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nISAKMP SA, Main Mode, Aggressive Mode, Quick Mode, pre-shared key or certificates, proposals, DH group.",
+    "word_count": 18
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nExact syntax varies by vendor. Legacy Cisco IOS examples may use `crypto isakmp policy`, `crypto isakmp key`, `crypto ipsec transform-set`, and crypto maps.",
+    "word_count": 26
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nEncryption, hash/integrity, authentication, DH group, lifetime, peer identity, transform set, selectors.",
+    "word_count": 14
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE CONFIGURATION (Cisco IOS, vendor-specific, lab only):\ncrypto isakmp policy 10\n encryption aes 256\n hash sha256\n authentication pre-share\n group 14\n!\nThis is an illustrative legacy syntax example; available algorithms vary by IOS release.",
+    "word_count": 36
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nUsing Aggressive Mode unnecessarily; weak hashes; weak DH groups; confusing Phase 1 with Phase 2.",
+    "word_count": 18
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nInspect IKE policy negotiation, authentication, then IPsec transform-set/Quick Mode. Cisco IOS commonly provides `show crypto isakmp sa` and `show crypto ipsec sa` on supported releases.",
+    "word_count": 27
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse IKEv2 for new deployments when possible. Treat IKEv1 as legacy/interoperability technology and disable it if not needed.",
+    "word_count": 21
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nRFC 2409, IKEv2, ISAKMP, Quick Mode, Phase 1/2.",
+    "word_count": 11
+  },
+  {
+    "document": "07_ikev1.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIKEv2 is the current Internet Standard version of IKE, specified by RFC 7296 and updated by later RFCs.",
+    "word_count": 20
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nIt provides authenticated negotiation and maintenance of IKE and IPsec SAs with a cleaner exchange model than IKEv1.",
+    "word_count": 20
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nInitial setup commonly consists of IKE_SA_INIT and IKE_AUTH. IKE_SA_INIT negotiates cryptographic parameters and performs DH exchange. IKE_AUTH authenticates identities and creates the first CHILD_SA. CREATE_CHILD_SA can create/rekey CHILD_SAs; INFORMATIONAL exchanges carry notifications and liveness/deletion information.",
+    "word_count": 39
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nIKE SA, CHILD SA, proposal, transforms, traffic selectors, AUTH payload, identities, EAP in some deployments, rekeying.",
+    "word_count": 19
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nDefine an IKE proposal, authentication, peer identity, and one or more CHILD_SA proposals/selectors.",
+    "word_count": 16
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nEncryption; integrity/PRF; DH; authentication; local/remote identities; local/remote traffic selectors; ESP transforms; rekey intervals; MOBIKE where supported; NAT-T.",
+    "word_count": 20
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE CONFIGURATION CONCEPT:\nIKEv2: AES-256-GCM + agreed DH group + certificate authentication.\nCHILD_SA: ESP AES-256-GCM + agreed PFS/rekey group.\nExact syntax is vendor-specific.",
+    "word_count": 25
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nAssuming IKE proposal and ESP proposal are the same; wrong identity; selector mismatch; missing certificate trust chain; unsupported DH.",
+    "word_count": 22
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nUse IKE logs to locate the failed exchange. Compare proposal lists, authentication identity, trust chain/PSK, and selectors.",
+    "word_count": 19
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse current algorithm guidance from RFC 8247 and its updates. Avoid weak/obsolete algorithms and unnecessary broad selectors.",
+    "word_count": 20
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nRFC 7296, RFC 7427, RFC 8247, CHILD_SA, PFS, EAP, NAT-T.",
+    "word_count": 13
+  },
+  {
+    "document": "08_ikev2.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nA Security Association is a set of parameters used to protect traffic in one direction using AH or ESP. An IPsec SA is simplex/unidirectional.",
+    "word_count": 26
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nThe SA tells the IPsec implementation how to process protected traffic.",
+    "word_count": 13
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nAn SA contains an SPI, protocol, destination address, cryptographic algorithms/keys, sequence state, anti-replay information, lifetime, and related parameters.",
+    "word_count": 22
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nSPI, destination, protocol, algorithms, keys, sequence number, anti-replay window, lifetime, mode, selectors.",
+    "word_count": 15
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nIKE negotiates SAs dynamically. Manual SAs are possible but are harder to operate safely at scale.",
+    "word_count": 19
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nSPI, algorithm suite, key material, lifetime, mode, peer, traffic selectors.",
+    "word_count": 13
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nA tunnel may have one outbound ESP SA and one inbound ESP SA. The two directions normally use distinct SA state.",
+    "word_count": 23
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nCalling the IKE SA the same thing as an IPsec SA; assuming one SA is bidirectional; stale SA state after configuration changes.",
+    "word_count": 25
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCheck SA counters, SPI values, lifetime/rekey state, and whether the correct traffic selectors map to the SA.",
+    "word_count": 19
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse automated key management, timely rekeying, anti-replay protection, and secure algorithm suites.",
+    "word_count": 15
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nSAD, SPD, SPI, IKE, CHILD_SA.",
+    "word_count": 8
+  },
+  {
+    "document": "09_security_associations.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nThe SPD contains policy rules describing how traffic should be treated. The SAD contains active SA state.",
+    "word_count": 19
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nTogether they separate policy decisions from cryptographic session state.",
+    "word_count": 11
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nFor outbound traffic, policy classification can result in BYPASS, DISCARD, or PROTECT. PROTECT processing uses an appropriate outbound SA. For inbound traffic, the packet is checked against SA and policy requirements.",
+    "word_count": 35
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nSPD selectors, actions, SAD entries, SPI, protocol, algorithms, keys, replay state.",
+    "word_count": 14
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nCisco crypto ACLs, strongSwan traffic selectors, Windows IPsec rules, and firewall/VPN policy objects are vendor-specific representations of similar policy ideas.",
+    "word_count": 23
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nSource/destination selectors, protocol/ports, direction, action, peer/SA, mode.",
+    "word_count": 10
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE POLICY:\n192.168.10.0/24 -> 192.168.20.0/24 = PROTECT using ESP tunnel.\nOther Internet traffic = normal routing/BYPASS unless another policy applies.",
+    "word_count": 22
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nOverlapping selectors; incorrect direction; selectors broader on one peer than the other; treating a firewall ACL as identical to an SPD.",
+    "word_count": 24
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCheck which policy matched, then which SA was selected. Inspect route, selector, and SA counters.",
+    "word_count": 17
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse least-privilege selectors and explicit deny rules where appropriate. Avoid unintended cleartext bypass.",
+    "word_count": 16
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nSA, SAD, SPD, traffic selectors, crypto ACL, firewall policy.",
+    "word_count": 12
+  },
+  {
+    "document": "10_spd_sad.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nEncryption provides confidentiality. IPsec commonly uses symmetric ciphers for bulk traffic.",
+    "word_count": 13
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nPrevent unauthorized parties from reading protected traffic.",
+    "word_count": 9
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nThe negotiated key and algorithm transform ESP payload data. Modern AEAD algorithms can provide confidentiality and integrity together.",
+    "word_count": 22
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nAES, AES-GCM, AES-CBC, ChaCha20-Poly1305 where a particular implementation supports it, key length, nonce/IV handling.",
+    "word_count": 17
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nAlgorithm names and syntax are vendor-specific. An IKE proposal and an ESP proposal are separate.",
+    "word_count": 18
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nCipher, key size, AEAD mode, integrity selection where separate, DH/PFS, proposal ordering.",
+    "word_count": 15
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nRecommended modern lab concept: ESP AES-256-GCM. Legacy interoperability concept: AES-CBC with HMAC-SHA-256, if required by both endpoints.",
+    "word_count": 19
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nUsing DES/3DES for new deployments; selecting CBC encryption with no integrity; assuming AES-GCM needs a separate HMAC in the same way CBC does.",
+    "word_count": 26
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nIf proposals fail, compare exact algorithm/mode/key-size names and whether each side supports AEAD.",
+    "word_count": 15
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nPrefer modern authenticated encryption. Deprecate DES and 3DES where possible. Treat algorithm policy as lifecycle-managed, not permanent.",
+    "word_count": 20
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nAEAD, integrity, IKE proposals, ESP transforms, RFC 8247, RFC 8221.",
+    "word_count": 13
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 12,
+    "section": "## FAQ",
+    "text": "## FAQ\n**Is AES-256 automatically safer than every AES-128 deployment?** Security depends on the overall design; both can be strong. Interoperability and policy requirements also matter.",
+    "word_count": 26
+  },
+  {
+    "document": "11_encryption_algorithms.md",
+    "chunk": 13,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nAuthentication verifies peer identity or data origin; integrity detects unauthorized modification. IPsec uses both peer authentication in IKE and packet integrity/authentication in ESP/AH.",
+    "word_count": 25
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nPrevent unauthorized peers from establishing trust and detect altered protected packets.",
+    "word_count": 13
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nIKE can authenticate peers using PSKs, certificates, raw public keys, or EAP-based methods depending on IKE version and implementation. ESP/AH can use integrity protection; AEAD combines encryption and integrity.",
+    "word_count": 33
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nPSK, X.509 certificates, digital signatures, HMAC, integrity transforms, trust anchors.",
+    "word_count": 13
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nAuthentication method must be compatible with the peer and policy. Certificate deployments require correct identity matching and certificate validation.",
+    "word_count": 22
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nIdentity, trust chain, certificate validity, PSK, signature algorithm, integrity transform.",
+    "word_count": 13
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE: IKEv2 certificate authentication using fictional `vpn-gw-a.example.invalid` and `vpn-gw-b.example.invalid` identities.",
+    "word_count": 12
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nWrong identity/IDr; expired certificate; missing intermediate CA; mismatched PSK; using weak legacy hashes.",
+    "word_count": 16
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCheck authentication exchange logs, identity values, certificate chain, clock, trust store, and exact PSK association.",
+    "word_count": 17
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nPrefer certificate-based authentication for larger deployments when lifecycle management is available. Protect private keys. Use strong unique PSKs where PSKs are required.",
+    "word_count": 25
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nPKI, X.509, IKE_AUTH, HMAC, AEAD, PFS.",
+    "word_count": 9
+  },
+  {
+    "document": "12_authentication_integrity.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nDiffie-Hellman (DH) is a key-agreement method that lets peers derive shared secret material without sending the resulting secret directly. Perfect Forward Secrecy (PFS) means compromise of long-term authentication material does not reveal past session keys, assuming fresh ephemeral key exchanges were used appropriately.",
+    "word_count": 45
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nEstablish fresh keying material and reduce the impact of later credential compromise.",
+    "word_count": 14
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nPeers exchange DH public values and independently compute the same shared secret. IKE uses DH during key establishment. IKEv2 can also use an additional DH exchange when creating/rekeying CHILD_SAs if PFS is configured.",
+    "word_count": 37
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nDH group, ephemeral/private values, public values, derived keys, rekey policy.",
+    "word_count": 13
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nIKE DH and CHILD_SA PFS DH are distinct settings. Some platforms reuse terminology such as `group`, `pfs`, or `dh-group`.",
+    "word_count": 22
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nDH group, key exchange method, rekey interval.",
+    "word_count": 10
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE: IKEv2 uses an agreed modern DH group; CHILD_SA rekey uses a PFS group. Exact group numbers/names must be checked against the platform.",
+    "word_count": 25
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nMismatched DH group; assuming IKE DH automatically means CHILD_SA PFS; choosing weak legacy groups.",
+    "word_count": 17
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCompare IKE proposal DH with IPsec/CHILD_SA PFS settings separately.",
+    "word_count": 11
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse groups recommended by current standards/vendor guidance. Do not treat a group number as universally equivalent across every configuration syntax without checking documentation.",
+    "word_count": 26
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nIKE, PFS, rekey, ECDH, cryptographic agility.",
+    "word_count": 9
+  },
+  {
+    "document": "13_diffie_hellman_pfs.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nTunnel mode protects an entire inner IP packet and adds an outer IP header. Transport mode protects the payload of an IP packet while retaining the original IP header.",
+    "word_count": 31
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nTunnel mode is typical for gateway-to-gateway VPNs. Transport mode is useful for host-to-host protection and some specialized designs.",
+    "word_count": 20
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nTunnel: original packet becomes protected inner content; outer header identifies tunnel endpoints.\nTransport: original IP header remains as the outer packet header; ESP/AH protects the payload/selected fields.",
+    "word_count": 31
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nOuter/inner IP headers, ESP/AH, tunnel endpoints, traffic selectors.",
+    "word_count": 11
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nCisco transform sets, strongSwan child mode, and Windows IPsec rules use vendor-specific terms.",
+    "word_count": 16
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nMode, local/remote selectors, outer gateway addresses, protocol/port selectors.",
+    "word_count": 11
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE TUNNEL:\nLOCAL_NETWORK 192.168.10.0/24 -> REMOTE_NETWORK 192.168.20.0/24 using ESP tunnel mode.\nEXAMPLE TRANSPORT:\nHost A -> Host B using ESP transport mode for selected host-to-host traffic.",
+    "word_count": 28
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nUsing transport mode for a gateway VPN without understanding endpoint requirements; misunderstanding outer vs inner addresses.",
+    "word_count": 19
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCapture traffic at both sides and identify outer IP addresses, ESP/UDP 4500, and inner protected addresses after decryption.",
+    "word_count": 20
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nTunnel mode hides the original internal addresses from observers on the untrusted path more effectively than transport mode.",
+    "word_count": 21
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nESP, AH, NAT-T, site-to-site VPN.",
+    "word_count": 8
+  },
+  {
+    "document": "14_tunnel_transport_mode.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nA site-to-site IPsec VPN securely connects networks through gateways.",
+    "word_count": 11
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nAllow hosts in one private network to communicate with hosts in another while protecting traffic across an untrusted network.",
+    "word_count": 21
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nGateway A and B authenticate, negotiate IKE and IPsec SAs, and encrypt matching inter-site traffic.",
+    "word_count": 19
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nTwo gateways, WAN reachability, protected subnets, routes, IKE, ESP, firewall, NAT exemption where applicable.",
+    "word_count": 17
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nEXAMPLE:\nLOCAL_NETWORK=192.168.10.0/24\nREMOTE_NETWORK=192.168.20.0/24\nLOCAL_GATEWAY=203.0.113.10\nREMOTE_GATEWAY=203.0.113.20\nTraffic from local to remote is selected for ESP tunnel protection.",
+    "word_count": 19
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nPeer IP, local/remote selectors, IKE proposal, authentication, ESP proposal, PFS, lifetimes, routing.",
+    "word_count": 15
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nA packet 192.168.10.50 -> 192.168.20.50 is routed to the VPN gateway, encrypted into ESP, crosses the Internet, and is decrypted at the remote gateway.",
+    "word_count": 26
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nNo route; NAT applied before VPN selection; selectors reversed; peer address unreachable; firewall blocks UDP 500/4500 or ESP.",
+    "word_count": 21
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nPing peer WAN addresses; verify IKE; verify CHILD_SA; inspect encrypted packet counters; test an allowed inner flow; check NAT and routing.",
+    "word_count": 23
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nLimit selectors, use strong algorithms, authenticate peers strongly, log tunnel state without exposing secrets, and restrict management access.",
+    "word_count": 21
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nRemote access, tunnel mode, NAT-T, routing, firewall.",
+    "word_count": 10
+  },
+  {
+    "document": "15_site_to_site_vpn.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nA remote-access VPN connects an individual host/client to an organization or service gateway.",
+    "word_count": 15
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nProvide protected access from an untrusted network to selected internal resources.",
+    "word_count": 13
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nThe client authenticates, receives or selects virtual/assigned addressing, and establishes IPsec SAs to the gateway. IKEv2 is commonly used; EAP methods may support user authentication.",
+    "word_count": 29
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nVPN gateway, client, virtual IP, authentication backend, certificates/PSK, traffic selectors, DNS/routes.",
+    "word_count": 14
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nFull tunnel sends broad traffic through the VPN; split tunnel sends only selected networks through it. Exact support is vendor-specific.",
+    "word_count": 23
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nClient identity, authentication method, virtual IP pool, selectors, DNS, routes, IKE/ESP proposals.",
+    "word_count": 15
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE: Client receives 10.250.10.10 from a fictional VPN pool and is permitted to reach 192.168.20.0/24.",
+    "word_count": 17
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nOverbroad access, incorrect virtual IP pool, missing route, DNS mismatch, certificate identity mismatch.",
+    "word_count": 16
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCheck authentication first, then assigned address, CHILD_SA selectors, routes, DNS, and application access.",
+    "word_count": 15
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse least privilege and MFA where the platform supports it. Segment remote users and log authentication/security events.",
+    "word_count": 20
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nEAP, IKEv2, certificates, split tunnel, full tunnel.",
+    "word_count": 10
+  },
+  {
+    "document": "16_remote_access_vpn.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIPsec configuration is the process of defining peer connectivity, authentication, cryptographic proposals, traffic selectors, routing, and firewall/NAT behavior.",
+    "word_count": 20
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nCreate a predictable, interoperable protected path.",
+    "word_count": 8
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 3,
+    "section": "## Configuration sequence",
+    "text": "## Configuration sequence\n1. Establish underlay reachability.\n2. Choose IKEv2 unless legacy interoperability requires IKEv1.\n3. Define authentication.\n4. Define IKE proposal.\n5. Define ESP/CHILD_SA proposal.\n6. Define selectors/mode.\n7. Configure firewall and NAT behavior.\n8. Configure routes.\n9. Validate with counters/logs.\n10. Test controlled application traffic.",
+    "word_count": 47
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 4,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nPeer IP, IKE version, identity, auth method, encryption, integrity/PRF, DH, ESP/AEAD, PFS, selectors, lifetimes, NAT-T.",
+    "word_count": 18
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 5,
+    "section": "## EXAMPLE CONFIGURATION",
+    "text": "## EXAMPLE CONFIGURATION\nLOCAL_NETWORK=192.168.10.0/24\nREMOTE_NETWORK=192.168.20.0/24\nLOCAL_GATEWAY=203.0.113.10\nREMOTE_GATEWAY=203.0.113.20\nIKE=IKEv2\nESP=ESP-AES-GCM\nMODE=tunnel\nThese names are conceptual unless mapped to a specific vendor syntax.",
+    "word_count": 21
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 6,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nCopying syntax between platforms; assuming algorithm names are universal; forgetting NAT exemption; configuring selectors but no route; using a weak PSK.",
+    "word_count": 24
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 7,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nSeparate control plane (IKE) from data plane (ESP/CHILD_SA) and from routing/firewall/application layers.",
+    "word_count": 14
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 8,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse strong cryptography, narrow selectors, secure authentication, minimal firewall exposure, and documented change control.",
+    "word_count": 17
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 9,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nCisco crypto map/VTI, strongSwan swanctl, Windows IPsec policy.",
+    "word_count": 11
+  },
+  {
+    "document": "17_ipsec_configuration.md",
+    "chunk": 10,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 1,
+    "section": "## Vendor scope",
+    "text": "## Vendor scope\nThe following syntax is Cisco IOS/IOS XE style and is NOT universal. Exact commands vary by release, platform, and whether crypto maps, VTIs, FlexVPN, or other features are used. Verify against the target release.",
+    "word_count": 37
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 2,
+    "section": "## A. Cisco IOS IKEv1 site-to-site example",
+    "text": "## A. Cisco IOS IKEv1 site-to-site example\nEXAMPLE CONFIGURATION — fictional lab values:\n```text\ncrypto isakmp policy 10\n encryption aes 256\n hash sha256\n authentication pre-share\n group 14\n!\ncrypto isakmp key EXAMPLE_ONLY_PSK address 203.0.113.20\n!\ncrypto ipsec transform-set LAB-ESP esp-aes 256 esp-sha256-hmac\n mode tunnel\n!\nip access-list extended VPN-TRAFFIC\n permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255\n!\ncrypto map LAB-MAP 10 ipsec-isakmp\n set peer 203.0.113.20\n set transform-set LAB-ESP\n match address VPN-TRAFFIC\n!\ninterface GigabitEthernet0/0\n ip address 203.0.113.10 255.255.255.0\n crypto map LAB-MAP\n```",
+    "word_count": 81
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 3,
+    "section": "### Line explanations",
+    "text": "### Line explanations\n- `crypto isakmp policy 10`: creates an IKEv1 policy with priority 10.\n- `encryption aes 256`: selects AES-256 for IKE protection where supported.\n- `hash sha256`: selects the IKEv1 hash/integrity setting.\n- `authentication pre-share`: uses a PSK.\n- `group 14`: selects the DH group in this example; verify support and current policy.\n- `crypto isakmp key ...`: associates a PSK with the peer. The shown value is intentionally not a real secret.\n- `crypto ipsec transform-set`: defines an ESP transform set.\n- `mode tunnel`: selects tunnel mode.\n- `VPN-TRAFFIC`: identifies protected \"interesting\" traffic.\n- `crypto map`: ties peer, transform set, and traffic selector together.\n- `set peer`: remote gateway address.\n- `match address`: traffic that should trigger/protect the VPN.\n- Interface `crypto map`: applies the crypto map to the external interface.\n\nCisco documents these commands for IOS/IOS XE IPsec configurations. Exact availability is release-specific.",
+    "word_count": 147
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 4,
+    "section": "## B. NAT exemption concept",
+    "text": "## B. NAT exemption concept\nVPN traffic should normally not be translated when the design expects the original inner addresses. Cisco implementations may use a NAT ACL/route-map arrangement; exact syntax is release-dependent.",
+    "word_count": 32
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 5,
+    "section": "## C. Verification",
+    "text": "## C. Verification\nCommon Cisco IOS/IOS XE commands include:\n`show crypto isakmp sa`\n`show crypto ipsec sa`\n`show crypto map`\nExact output and command availability depend on platform/release.",
+    "word_count": 28
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 6,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nWrong peer; mismatched transform set; ACL selectors reversed; NAT applied to VPN traffic; crypto map not applied.",
+    "word_count": 20
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 7,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nFor new designs, prefer IKEv2 and current algorithms supported by the platform. Avoid real credentials in documentation or source control.",
+    "word_count": 23
+  },
+  {
+    "document": "18_cisco_configuration.md",
+    "chunk": 8,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 1,
+    "section": "## Vendor scope",
+    "text": "## Vendor scope\nstrongSwan is an open-source IPsec implementation. Current deployments commonly use `swanctl.conf`; legacy deployments may use `ipsec.conf`. Syntax is implementation-specific.",
+    "word_count": 22
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 2,
+    "section": "## A. swanctl-style IKEv2 example",
+    "text": "## A. swanctl-style IKEv2 example\nEXAMPLE CONFIGURATION — fictional lab:\n```text\nconnections {\n  lab-vpn {\n    version = 2\n    remote_addrs = 203.0.113.20\n    local_addrs = 203.0.113.10\n\n    local {\n      auth = psk\n      id = gw-a.example.invalid\n    }\n    remote {\n      auth = psk\n      id = gw-b.example.invalid\n    }\n\n    children {\n      site {\n        local_ts = 192.168.10.0/24\n        remote_ts = 192.168.20.0/24\n        esp_proposals = aes256gcm16\n        start_action = trap\n      }\n    }\n  }\n}\nsecrets {\n  ike-1 {\n    secret = EXAMPLE_ONLY_PSK\n  }\n}\n```",
+    "word_count": 72
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 3,
+    "section": "### Line explanations",
+    "text": "### Line explanations\n- `version = 2`: selects IKEv2.\n- `remote_addrs` / `local_addrs`: IKE peer endpoint addresses.\n- `local` and `remote`: authentication method and identities.\n- `children`: defines the IPsec/CHILD_SA.\n- `local_ts` / `remote_ts`: traffic selectors.\n- `esp_proposals`: ESP/CHILD_SA algorithm proposal; exact proposal names depend on strongSwan version/plugins.\n- `start_action = trap`: installs policy so matching traffic can trigger negotiation.\n- `secrets`: PSK material; the example is not a real secret.",
+    "word_count": 71
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 4,
+    "section": "## B. ipsec.conf conceptual alternative",
+    "text": "## B. ipsec.conf conceptual alternative\nLegacy `ipsec.conf` configurations can express `conn` blocks with `left`, `right`, authentication, and proposals. Use the version-specific strongSwan documentation before deploying.",
+    "word_count": 25
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 5,
+    "section": "## NAT-T",
+    "text": "## NAT-T\nstrongSwan generally detects NAT and uses UDP encapsulation when negotiated. Firewall policy must permit UDP 500/4500 as appropriate.",
+    "word_count": 20
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 6,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nUseful strongSwan tools include `swanctl --list-sas`, `swanctl --list-pols`, and `journalctl`/daemon logs. Exact output varies by version and service manager.",
+    "word_count": 21
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 7,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nWrong identity, missing CA/PSK, mismatched traffic selectors, unsupported proposal, forgetting routes/firewall.",
+    "word_count": 14
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 8,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse current proposals, certificate authentication for scalable deployments, protected secret storage, and strict selectors. Check the installed strongSwan version's documentation because options evolve.",
+    "word_count": 26
+  },
+  {
+    "document": "19_strongswan_configuration.md",
+    "chunk": 9,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nWindows provides IPsec policy and firewall capabilities through Windows Defender Firewall with Advanced Security and Windows PowerShell networking/security cmdlets. Exact capabilities vary by Windows edition/version.",
+    "word_count": 27
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nProtect host-to-host or host-to-network traffic and integrate IPsec authentication/encryption into Windows network policy.",
+    "word_count": 15
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 3,
+    "section": "## Important components",
+    "text": "## Important components\nWindows Defender Firewall with Advanced Security, connection security rules, authentication methods, IPsec settings, IKE/IKEv2, certificates/PSKs where supported.",
+    "word_count": 20
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 4,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nA connection security rule defines authentication and IPsec requirements between endpoints. Firewall rules control allowed application traffic separately.",
+    "word_count": 21
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 5,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nEndpoint addresses, authentication, tunnel/transport behavior, encryption/integrity algorithms, key exchange, authentication requirements.",
+    "word_count": 14
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 6,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE CONCEPT: create a connection security rule requiring authentication for traffic between 192.168.10.0/24 and 192.168.20.0/24. Exact GUI/PowerShell syntax should be verified for the target Windows release.",
+    "word_count": 28
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 7,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nConfusing firewall allow rules with IPsec connection-security rules; applying a policy to the wrong profile; certificate trust/identity mismatch.",
+    "word_count": 21
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 8,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nInspect Windows Defender Firewall/IPsec logs, effective rules, authentication/certificate state, and packet captures. Confirm that both endpoints negotiate compatible settings.",
+    "word_count": 21
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 9,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nUse least-privilege rules and modern cryptography. Avoid broad \"allow all\" rules and unmanaged certificates.",
+    "word_count": 17
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 10,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nWindows Defender Firewall, IKEv2, certificates, connection security rules.",
+    "word_count": 11
+  },
+  {
+    "document": "20_windows_ipsec.md",
+    "chunk": 11,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 1,
+    "section": "## Rule format",
+    "text": "## Rule format Rule ID | Name | Purpose | Source | Destination | Protocol | Port | Action | Authentication | Encryption | Integrity | Security level | Reason | Example | Common mistake | IPSEC-001 | IKE | Establish IKE | Remote VPN peer | Local VPN gateway | UDP | 500 | Allow | Required by IKE | Negotiated | Negotiated | High | IKE control traffic | Allow UDP/500 from known peers | Treating it as TCP | | IPSEC-002 | NAT-T | IKE/UDP-encapsulated ESP | Remote peer | Local gateway | UDP | 4500 | Allow | IKE authentication | ESP inside UDP | Negotiated | High | NAT traversal | Allow UDP/4500 from known peers | Blocking 4500 when NAT exists | | IPSEC-003 | ESP | Native ESP | Remote peer | Local gateway | IP protocol 50 | N/A | Allow if used | SA required | ESP | ESP integrity/AEAD | High | Non-NAT ESP transport | Permit protocol 50 where design requires | Creating TCP/50 rule | | IPSEC-004 | AH | Native AH | Remote peer | Local gateway | IP protocol 51 | N/A | Allow only if required | SA required | None | AH integrity | Medium | Legacy/specialized designs | Permit protocol 51 only when used | Expecting encryption | | IPSEC-005 | VPN traffic | Protected subnet flow | Local subnet | Remote subnet | As required | As required | Allow after IPsec policy | IPsec SA | Required | Required | High | Least privilege | Permit only approved services | Allowing all ports | | IPSEC-006 | Management | Administrative access | Admin network | VPN gateway | TCP/SSH or vendor management | Vendor-specific | Allow from admin segment | Strong admin auth | TLS/IPsec as designed | Required | High | Reduce attack surface | Restrict management to admin subnet | Exposing management to Internet | | IPSEC-007 | Authentication | Peer authentication | VPN peers | VPN gateway | IKE | 500/4500 | Allow | Strong identity auth | IKE | Integrity | High | Prevent rogue peers | Certificate/strong PSK | Shared weak PSK | | IPSEC-008 | Encryption | Cryptographic requirement | VPN peers | VPN peers | IPsec/IKE | N/A | Require | Required | Strong modern cipher | Required | High | Confidentiality | AES-GCM where supported | Legacy DES/3DES | | IPSEC-009 | Integrity | Packet integrity | VPN peers | VPN peers | ESP/AH | N/A | Require | Required | AEAD or separate integrity | Required | High | Detect modification | AES-GCM or strong HMAC suite | Encryption without integrity |",
+    "word_count": 450
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 2,
+    "section": "## Rule format",
+    "text": "modern cipher | Required | High | Confidentiality | AES-GCM where supported | Legacy DES/3DES | | IPSEC-009 | Integrity | Packet integrity | VPN peers | VPN peers | ESP/AH | N/A | Require | Required | AEAD or separate integrity | Required | High | Detect modification | AES-GCM or strong HMAC suite | Encryption without integrity | | IPSEC-010 | Access control | Least privilege | Approved sources | Approved destinations | As needed | As needed | Allow only listed | IPsec auth | Required | Required | High | Limit blast radius | Narrow selectors | 0.0.0.0/0 unintentionally | | IPSEC-011 | Weak crypto | Block deprecated suites | Any | VPN gateway | IKE/IPsec | N/A | Deny/disable | N/A | No DES/3DES | No weak hashes | High | Reduce cryptographic risk | Remove legacy proposals | Keeping legacy fallback forever |",
+    "word_count": 149
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 3,
+    "section": "## Important firewall facts",
+    "text": "## Important firewall facts\nIKE commonly uses UDP 500. NAT-T uses UDP 4500. ESP is IP protocol 50 and AH is IP protocol 51. Firewall syntax is vendor-specific.",
+    "word_count": 28
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 4,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nAllowing only UDP 500 when NAT-T is required; blocking protocol 50 in a non-NAT design; allowing VPN traffic but forgetting IKE; broad source rules.",
+    "word_count": 27
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 5,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nCheck both gateway-local firewall and upstream firewall/NAT. Confirm whether traffic is native ESP or UDP-encapsulated.",
+    "word_count": 17
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 6,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nAllow only known peers where practical. Do not expose management interfaces unnecessarily.",
+    "word_count": 15
+  },
+  {
+    "document": "21_firewall_rules.md",
+    "chunk": 7,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nNAT Traversal (NAT-T) allows IPsec ESP to cross Network Address Translation devices by encapsulating ESP in UDP.",
+    "word_count": 19
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nNAT devices commonly track TCP/UDP flows and may not handle native ESP protocol 50 correctly. NAT-T provides UDP encapsulation.",
+    "word_count": 21
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 3,
+    "section": "## How it works",
+    "text": "## How it works\nIKE detects NAT conditions. When negotiated, IKE and UDP-encapsulated ESP use UDP 4500. RFC 3947 specifies NAT detection/negotiation and RFC 3948 specifies UDP encapsulation of ESP.",
+    "word_count": 30
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 4,
+    "section": "## Important components",
+    "text": "## Important components\nNAT detection payloads, UDP 4500, non-ESP marker for IKE over 4500, UDP-encapsulated ESP.",
+    "word_count": 16
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 5,
+    "section": "## Configuration concepts",
+    "text": "## Configuration concepts\nMost modern IKE implementations negotiate NAT-T automatically. Some platforms have an explicit NAT-T enable/force setting.",
+    "word_count": 18
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 6,
+    "section": "## Important parameters",
+    "text": "## Important parameters\nUDP 4500, keepalives, NAT mapping timeout, peer addresses.",
+    "word_count": 11
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 7,
+    "section": "## Example",
+    "text": "## Example\nEXAMPLE: Client behind NAT 10.0.0.10 reaches gateway 203.0.113.20. After NAT detection, IKE/ESP use UDP 4500.",
+    "word_count": 17
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 8,
+    "section": "## Common mistakes",
+    "text": "## Common mistakes\nOpening UDP 500 but not 4500; expecting protocol 50 to work through every NAT; confusing NAT-T with NAT exemption.",
+    "word_count": 22
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 9,
+    "section": "## Troubleshooting",
+    "text": "## Troubleshooting\nPacket capture: verify IKE begins on UDP 500 and switches/uses UDP 4500 when NAT is detected. Check NAT timeout and firewall rules.",
+    "word_count": 24
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 10,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nNAT-T is a transport mechanism, not a substitute for authentication or encryption. Keep peer authentication and cryptographic policy strong.",
+    "word_count": 22
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 11,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nRFC 3947, RFC 3948, IKE, ESP.",
+    "word_count": 9
+  },
+  {
+    "document": "22_nat_traversal.md",
+    "chunk": 12,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nIPsec troubleshooting isolates failures across underlay connectivity, IKE, IPsec/CHILD_SA, policy, routing, NAT/firewall, and application layers.",
+    "word_count": 17
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 2,
+    "section": "## Method",
+    "text": "## Method\n1. Confirm peer addresses are reachable.\n2. Confirm UDP 500/4500 as appropriate.\n3. Identify IKE version and failed exchange.\n4. Compare IKE proposals.\n5. Verify authentication.\n6. Verify CHILD_SA/ESP proposals and PFS.\n7. Verify traffic selectors.\n8. Verify routes.\n9. Verify NAT exemption/translation behavior.\n10. Check ESP/IPsec counters.\n11. Test one known flow.\n12. Check application-specific behavior.",
+    "word_count": 59
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 3,
+    "section": "## Important diagnostics",
+    "text": "## Important diagnostics\nPacket captures, IKE daemon logs, SA tables, policy tables, route tables, firewall/NAT logs.",
+    "word_count": 16
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 4,
+    "section": "## Common symptoms",
+    "text": "## Common symptoms\n- No IKE packets: underlay/firewall/routing.\n- IKE_SA_INIT fails: proposal/DH/transport issue.\n- IKE_AUTH fails: identity/authentication/certificate/PSK issue.\n- CHILD_SA fails: ESP proposal/PFS/traffic selector issue.\n- SA established but no data: route, selector, NAT, firewall, MTU, or application issue.\n- One direction works: asymmetric routing/policy/NAT/replay issue.",
+    "word_count": 46
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 5,
+    "section": "## Example",
+    "text": "## Example\nIf IKE establishes but CHILD_SA does not, do not keep changing the PSK first. Compare ESP/CHILD_SA proposals, PFS, selectors, and mode.",
+    "word_count": 23
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 6,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nRedact secrets from logs and captures. Avoid publishing private keys or PSKs in tickets.",
+    "word_count": 17
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 7,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nIKEv2 exchanges, SA, SPD/SAD, NAT-T, firewall.",
+    "word_count": 9
+  },
+  {
+    "document": "23_ipsec_troubleshooting.md",
+    "chunk": 8,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 1,
+    "section": "## Error 1: Proposal mismatch",
+    "text": "## Error 1: Proposal mismatch\nCause: No common IKE or ESP transform. Fix: compare exact algorithms, key sizes, integrity/AEAD, and DH.",
+    "word_count": 21
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 2,
+    "section": "## Error 2: Authentication failure",
+    "text": "## Error 2: Authentication failure\nCause: Wrong PSK, wrong identity, expired/untrusted certificate, or incompatible authentication method. Fix: verify identity and trust configuration without exposing secrets.",
+    "word_count": 25
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 3,
+    "section": "## Error 3: Phase 1 / IKE failure",
+    "text": "## Error 3: Phase 1 / IKE failure\nCause: peer unreachable, UDP 500/4500 blocked, IKE mismatch, DH mismatch, or authentication problem.",
+    "word_count": 21
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 4,
+    "section": "## Error 4: Phase 2 / CHILD_SA failure",
+    "text": "## Error 4: Phase 2 / CHILD_SA failure\nCause: traffic selectors, ESP proposal, PFS, or mode mismatch.",
+    "word_count": 17
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 5,
+    "section": "## Error 5: Tunnel established but traffic fails",
+    "text": "## Error 5: Tunnel established but traffic fails\nCause: route, selector, firewall, NAT, MTU, or application issue.",
+    "word_count": 17
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 6,
+    "section": "## Error 6: NAT breaks VPN",
+    "text": "## Error 6: NAT breaks VPN\nCause: native ESP cannot cross a particular NAT path. Fix: ensure NAT-T is negotiated and UDP 4500 is allowed.",
+    "word_count": 25
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 7,
+    "section": "## Error 7: No traffic counters",
+    "text": "## Error 7: No traffic counters\nCause: selector does not match, route not using gateway, or policy not installed.",
+    "word_count": 19
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 8,
+    "section": "## Error 8: Asymmetric selectors",
+    "text": "## Error 8: Asymmetric selectors\nCause: local/remote networks reversed or different masks.",
+    "word_count": 12
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 9,
+    "section": "## Error 9: Weak crypto",
+    "text": "## Error 9: Weak crypto\nCause: copied legacy configuration. Fix: remove deprecated algorithms and use current vendor/IETF guidance.",
+    "word_count": 18
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 10,
+    "section": "## Error 10: Vendor syntax copied unchanged",
+    "text": "## Error 10: Vendor syntax copied unchanged\nCause: commands differ among Cisco IOS, ASA, strongSwan, Windows, and other products. Fix: consult the target platform's documentation.",
+    "word_count": 25
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 11,
+    "section": "## Error 11: Secret leakage",
+    "text": "## Error 11: Secret leakage\nCause: PSK/private key embedded in tickets, repositories, or chat. Fix: rotate exposed secrets and store them securely.",
+    "word_count": 22
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 12,
+    "section": "## Error 12: Management exposure",
+    "text": "## Error 12: Management exposure\nCause: VPN gateway administration reachable from untrusted networks. Fix: restrict management source networks and require strong authentication.",
+    "word_count": 22
+  },
+  {
+    "document": "24_common_errors.md",
+    "chunk": 13,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 1,
+    "section": "## Definition",
+    "text": "## Definition\nSecure IPsec configuration combines strong cryptography, strong authentication, narrow policy, secure operations, and lifecycle management.",
+    "word_count": 17
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 2,
+    "section": "## Purpose",
+    "text": "## Purpose\nReduce compromise likelihood and limit the impact of configuration mistakes.",
+    "word_count": 12
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 3,
+    "section": "## Recommended practices",
+    "text": "## Recommended practices\n1. Prefer IKEv2 for new deployments.\n2. Prefer ESP over AH for normal VPN use.\n3. Prefer authenticated encryption such as AES-GCM where supported.\n4. Avoid DES, 3DES, and weak legacy hashes for new configurations.\n5. Use PFS for CHILD_SA rekeying when supported and appropriate.\n6. Use certificates for scalable peer authentication when practical.\n7. If PSKs are required, use unique, high-entropy PSKs per peer.\n8. Narrow traffic selectors.\n9. Restrict IKE/ESP exposure to expected peers where feasible.\n10. Permit UDP 4500 when NAT-T is needed.\n11. Protect management interfaces separately.\n12. Patch VPN gateways and clients.\n13. Monitor authentication failures, tunnel state, and unexpected peer changes.\n14. Redact keys and credentials from logs.\n15. Document vendor/version-specific assumptions.\n16. Test failover and rekey behavior.\n17. Validate effective policy after every change.",
+    "word_count": 134
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 4,
+    "section": "## Deprecated/weak algorithms",
+    "text": "## Deprecated/weak algorithms\nDES and 3DES should not be selected for new deployments. MD5 and SHA-1 should generally be avoided for new security designs except where an explicitly documented interoperability constraint exists. Exact algorithm status should be checked against current IETF and vendor guidance.",
+    "word_count": 44
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 5,
+    "section": "## Security considerations",
+    "text": "## Security considerations\nAlgorithm recommendations evolve. RFC 8247 and RFC 9395 provide IKEv2 algorithm guidance; ESP algorithm guidance is covered by documents such as RFC 8221 and later updates.",
+    "word_count": 29
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 6,
+    "section": "## Related concepts",
+    "text": "## Related concepts\nCryptographic agility, PKI, PFS, least privilege, zero trust, patch management.",
+    "word_count": 13
+  },
+  {
+    "document": "25_security_best_practices.md",
+    "chunk": 7,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 0,
+    "section": "# RAG safety and scope",
+    "text": "# RAG safety and scope\nThis document is a technical knowledge-base artifact for a college-level IPsec/network-security assistant. Configuration examples are fictional and intended for isolated labs. They use documentation/test-network addresses such as 192.168.10.0/24, 192.168.20.0/24 and TEST_PUBLIC_* placeholders. Never copy example secrets into production. Vendor-specific syntax is labeled as such.\n\nTerminology:\n- IPsec = Internet Protocol Security.\n- IKE = Internet Key Exchange.\n- SA = Security Association.\n- SPD = Security Policy Database.\n- SAD = Security Association Database.\n- ESP = Encapsulating Security Payload.\n- AH = Authentication Header.",
+    "word_count": 90
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 1,
+    "section": "# 26. IPsec FAQ and RAG Evaluation Questions",
+    "text": "# 26. IPsec FAQ and RAG Evaluation Questions\nThis file contains 100 administrator/student questions designed for semantic retrieval and answer evaluation.",
+    "word_count": 21
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 2,
+    "section": "## Q001",
+    "text": "## Q001\n**Question:** What is IPsec?\n**Answer:** IPsec is a suite of IP-layer security standards that uses ESP/AH and key-management mechanisms such as IKE to protect selected IP traffic.\n**Relevant Topic:** Fundamentals\n**Difficulty:** Easy\n**Keywords:** IPsec, VPN, ESP, IKE",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 3,
+    "section": "## Q002",
+    "text": "## Q002\n**Question:** What is the difference between AH and ESP?\n**Answer:** AH provides integrity/data-origin authentication but no confidentiality; ESP can provide confidentiality and integrity/authentication and is the normal choice for VPNs.\n**Relevant Topic:** AH/ESP\n**Difficulty:** Easy\n**Keywords:** AH, ESP, integrity, encryption",
+    "word_count": 42
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 4,
+    "section": "## Q003",
+    "text": "## Q003\n**Question:** What is tunnel mode?\n**Answer:** Tunnel mode encapsulates/protects an entire inner IP packet and adds an outer IP header, making it common for gateway-to-gateway VPNs.\n**Relevant Topic:** Tunnel/Transport\n**Difficulty:** Easy\n**Keywords:** tunnel mode, VPN",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 5,
+    "section": "## Q004",
+    "text": "## Q004\n**Question:** What is transport mode?\n**Answer:** Transport mode protects the payload of an IP packet while retaining the original IP header, making it common for host-to-host use.\n**Relevant Topic:** Tunnel/Transport\n**Difficulty:** Easy\n**Keywords:** transport mode",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 6,
+    "section": "## Q005",
+    "text": "## Q005\n**Question:** What is IKE?\n**Answer:** IKE is the key-management protocol used to authenticate peers and negotiate/maintain IPsec security associations.\n**Relevant Topic:** IKE\n**Difficulty:** Easy\n**Keywords:** IKE, key exchange",
+    "word_count": 30
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 7,
+    "section": "## Q006",
+    "text": "## Q006\n**Question:** What is IKEv2?\n**Answer:** IKEv2 is the current Internet Standard version of IKE, specified by RFC 7296 and updated by later RFCs.\n**Relevant Topic:** IKEv2\n**Difficulty:** Easy\n**Keywords:** IKEv2, RFC 7296",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 8,
+    "section": "## Q007",
+    "text": "## Q007\n**Question:** What is a Security Association?\n**Answer:** An IPsec SA is a unidirectional set of parameters such as SPI, algorithms, keys, sequence state, and lifetime used to protect traffic.\n**Relevant Topic:** SA\n**Difficulty:** Easy\n**Keywords:** SA, SPI",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 9,
+    "section": "## Q008",
+    "text": "## Q008\n**Question:** What is the difference between SPD and SAD?\n**Answer:** The SPD contains traffic-policy decisions; the SAD contains active security-association state and cryptographic processing parameters.\n**Relevant Topic:** SPD/SAD\n**Difficulty:** Easy\n**Keywords:** SPD, SAD",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 10,
+    "section": "## Q009",
+    "text": "## Q009\n**Question:** What ports does IKE use?\n**Answer:** IKE normally uses UDP 500. With NAT traversal, IKE and UDP-encapsulated ESP use UDP 4500.\n**Relevant Topic:** Protocols/NAT-T\n**Difficulty:** Easy\n**Keywords:** UDP 500, UDP 4500",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 11,
+    "section": "## Q010",
+    "text": "## Q010\n**Question:** What is ESP?\n**Answer:** ESP is IP protocol 50 and provides the main IPsec traffic protection, including confidentiality and integrity/authentication depending on the negotiated suite.\n**Relevant Topic:** ESP\n**Difficulty:** Easy\n**Keywords:** ESP, protocol 50",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 12,
+    "section": "## Q011",
+    "text": "## Q011\n**Question:** What is NAT-T?\n**Answer:** NAT-T encapsulates ESP in UDP so IPsec can traverse NAT devices that do not handle native ESP well.\n**Relevant Topic:** NAT-T\n**Difficulty:** Easy\n**Keywords:** NAT-T, UDP 4500",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 13,
+    "section": "## Q012",
+    "text": "## Q012\n**Question:** How does a site-to-site IPsec VPN work?\n**Answer:** Two gateways authenticate and negotiate IKE/IPsec SAs, then encrypt matching traffic between protected networks across an untrusted path.\n**Relevant Topic:** Site-to-site\n**Difficulty:** Easy\n**Keywords:** site-to-site, gateway",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 14,
+    "section": "## Q013",
+    "text": "## Q013\n**Question:** How do I configure an IPsec tunnel?\n**Answer:** Define underlay reachability, IKE authentication/proposal, ESP proposal, traffic selectors, routing, firewall/NAT behavior, then verify IKE and IPsec state. Exact commands are vendor-specific.\n**Relevant Topic:** Configuration\n**Difficulty:** Medium\n**Keywords:** IPsec configuration",
+    "word_count": 41
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 15,
+    "section": "## Q014",
+    "text": "## Q014\n**Question:** Why is my IPsec tunnel not establishing?\n**Answer:** First separate reachability, IKE, authentication, CHILD_SA, and data-plane problems. Check UDP 500/4500, proposals, identities, credentials, and logs.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** tunnel failure",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 16,
+    "section": "## Q015",
+    "text": "## Q015\n**Question:** Why does IKE negotiation fail?\n**Answer:** Common causes include unreachable peer, blocked UDP 500/4500, proposal mismatch, DH mismatch, identity mismatch, or authentication failure.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** IKE failure",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 17,
+    "section": "## Q016",
+    "text": "## Q016\n**Question:** Why is Phase 1 failing?\n**Answer:** In IKEv1 terminology, Phase 1 failure usually points to peer reachability, IKE policy, DH, authentication, or lifetime mismatch.\n**Relevant Topic:** IKEv1\n**Difficulty:** Medium\n**Keywords:** Phase 1",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 18,
+    "section": "## Q017",
+    "text": "## Q017\n**Question:** Why is Phase 2 failing?\n**Answer:** In IKEv1 terminology, Phase 2 commonly fails because of transform-set mismatch, PFS mismatch, or traffic-selector/crypto-ACL mismatch.\n**Relevant Topic:** IKEv1\n**Difficulty:** Medium\n**Keywords:** Phase 2",
+    "word_count": 33
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 19,
+    "section": "## Q018",
+    "text": "## Q018\n**Question:** What causes IPsec authentication failure?\n**Answer:** Wrong PSK, wrong identity, certificate validation failure, expired certificate, missing trust chain, or unsupported authentication method can cause failure.\n**Relevant Topic:** Authentication\n**Difficulty:** Medium\n**Keywords:** PSK, certificates",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 20,
+    "section": "## Q019",
+    "text": "## Q019\n**Question:** What causes an IPsec proposal mismatch?\n**Answer:** The peers have no common cryptographic combination. Compare IKE and ESP/CHILD_SA proposals separately.\n**Relevant Topic:** Algorithms\n**Difficulty:** Medium\n**Keywords:** proposal mismatch",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 21,
+    "section": "## Q020",
+    "text": "## Q020\n**Question:** What is Perfect Forward Secrecy?\n**Answer:** PFS uses fresh key exchange material for CHILD_SA key establishment/rekeying so compromise of long-term authentication material does not automatically expose past session keys.\n**Relevant Topic:** PFS\n**Difficulty:** Medium\n**Keywords:** PFS, DH",
+    "word_count": 40
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 22,
+    "section": "## Q021",
+    "text": "## Q021\n**Question:** Which encryption algorithms should be avoided?\n**Answer:** DES and 3DES should not be selected for new deployments; legacy algorithms should be retained only for documented interoperability needs and risk acceptance.\n**Relevant Topic:** Best practices\n**Difficulty:** Easy\n**Keywords:** DES, 3DES",
+    "word_count": 42
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 23,
+    "section": "## Q022",
+    "text": "## Q022\n**Question:** How do I troubleshoot an IPsec VPN?\n**Answer:** Check underlay, IKE, authentication, CHILD_SA, selectors, routing, NAT/firewall, and application behavior in that order.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** troubleshooting",
+    "word_count": 32
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 24,
+    "section": "## Q023",
+    "text": "## Q023\n**Question:** What firewall rules are required for IPsec?\n**Answer:** Allow UDP 500 for IKE and UDP 4500 when NAT-T is used. Native ESP is IP protocol 50; AH is protocol 51 if AH is actually deployed.\n**Relevant Topic:** Firewall\n**Difficulty:** Medium\n**Keywords:** firewall, ESP 50",
+    "word_count": 47
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 25,
+    "section": "## Q024",
+    "text": "## Q024\n**Question:** What is the difference between IKE and IPsec?\n**Answer:** IKE is the control/key-management protocol; IPsec traffic protection is normally provided by ESP or AH according to negotiated SAs.\n**Relevant Topic:** IKE/IPsec\n**Difficulty:** Easy\n**Keywords:** IKE, IPsec",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 26,
+    "section": "## Q025",
+    "text": "## Q025\n**Question:** What is the difference between ESP encryption and authentication?\n**Answer:** Encryption provides confidentiality. Integrity/authentication detects modification and authenticates protected data origin. AEAD modes can combine both.\n**Relevant Topic:** ESP\n**Difficulty:** Medium\n**Keywords:** encryption, integrity",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 27,
+    "section": "## Q026",
+    "text": "## Q026\n**Question:** How does Diffie-Hellman work in IPsec?\n**Answer:** Peers exchange DH public values and independently derive shared secret material; IKE uses this to derive keying material without sending the resulting secret directly.\n**Relevant Topic:** DH/PFS\n**Difficulty:** Medium\n**Keywords:** DH, key exchange",
+    "word_count": 43
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 28,
+    "section": "## Q027",
+    "text": "## Q027\n**Question:** The IKE tunnel is not establishing between two gateways. Both gateways have different Diffie-Hellman groups. What is the likely problem?\n**Answer:** The IKE proposals do not share a compatible DH group. Configure at least one common supported group on both peers and verify the target platform's group naming.\n**Relevant Topic:** IKEv2/DH\n**Difficulty:** Medium\n**Keywords:** DH mismatch",
+    "word_count": 59
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 29,
+    "section": "## Q028",
+    "text": "## Q028\n**Question:** IKE establishes but the CHILD_SA fails because one side proposes AES-GCM and the other only AES-CBC plus HMAC. What is wrong?\n**Answer:** There is no common ESP proposal. Align the ESP/CHILD_SA suites or add a compatible proposal on both sides, following current security guidance.\n**Relevant Topic:** ESP\n**Difficulty:** Medium\n**Keywords:** GCM, CBC, proposal",
+    "word_count": 56
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 30,
+    "section": "## Q029",
+    "text": "## Q029\n**Question:** A firewall allows UDP 500 but blocks UDP 4500. The client is behind NAT. What symptom is likely?\n**Answer:** IKE may begin, but NAT-T traffic can fail after NAT detection because UDP 4500 is unavailable.\n**Relevant Topic:** NAT-T\n**Difficulty:** Medium\n**Keywords:** UDP 4500",
+    "word_count": 46
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 31,
+    "section": "## Q030",
+    "text": "## Q030\n**Question:** A device administrator creates a TCP port 50 rule for ESP. Is that correct?\n**Answer:** No. ESP is IP protocol 50, not TCP port 50.\n**Relevant Topic:** Protocols\n**Difficulty:** Easy\n**Keywords:** ESP protocol 50",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 32,
+    "section": "## Q031",
+    "text": "## Q031\n**Question:** A device administrator creates UDP port 51 for AH. Is that correct?\n**Answer:** No. AH is IP protocol 51, not UDP port 51.\n**Relevant Topic:** Protocols\n**Difficulty:** Easy\n**Keywords:** AH protocol 51",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 33,
+    "section": "## Q032",
+    "text": "## Q032\n**Question:** The tunnel is established but counters stay at zero. What should be checked?\n**Answer:** Check routes, traffic selectors/crypto ACLs, SPD policy installation, and whether test traffic actually matches the protected networks.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** counters, selectors",
+    "word_count": 42
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 34,
+    "section": "## Q033",
+    "text": "## Q033\n**Question:** The tunnel is up but hosts cannot communicate because local traffic is NATed to the Internet address. What is the likely issue?\n**Answer:** VPN traffic is being translated instead of matching the intended protected selectors. Check NAT exemption/order and platform-specific policy processing.\n**Relevant Topic:** NAT/Configuration\n**Difficulty:** Medium\n**Keywords:** NAT exemption",
+    "word_count": 53
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 35,
+    "section": "## Q034",
+    "text": "## Q034\n**Question:** A certificate-based IKEv2 tunnel fails after certificate renewal. What should be checked?\n**Answer:** Check certificate validity, subject/SAN identity matching, trust chain, private-key association, and peer trust configuration.\n**Relevant Topic:** Authentication\n**Difficulty:** Medium\n**Keywords:** certificate, PKI",
+    "word_count": 38
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 36,
+    "section": "## Q035",
+    "text": "## Q035\n**Question:** An administrator uses the same PSK for every VPN peer. Why is this risky?\n**Answer:** Compromise of one peer's shared secret can affect trust across multiple peers. Unique high-entropy PSKs reduce blast radius.\n**Relevant Topic:** Authentication\n**Difficulty:** Medium\n**Keywords:** PSK",
+    "word_count": 43
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 37,
+    "section": "## Q036",
+    "text": "## Q036\n**Question:** A site-to-site VPN uses 0.0.0.0/0 selectors unintentionally. What is the risk?\n**Answer:** The policy may capture far more traffic than intended. Use narrow selectors unless a deliberate full-tunnel design requires broad selectors.\n**Relevant Topic:** SPD\n**Difficulty:** Medium\n**Keywords:** selectors, least privilege",
+    "word_count": 44
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 38,
+    "section": "## Q037",
+    "text": "## Q037\n**Question:** Why is AH problematic with NAT?\n**Answer:** AH authenticates IP header information that NAT may modify, so NAT can invalidate AH integrity checks.\n**Relevant Topic:** AH/NAT-T\n**Difficulty:** Medium\n**Keywords:** AH, NAT",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 39,
+    "section": "## Q038",
+    "text": "## Q038\n**Question:** What is an SPI?\n**Answer:** A Security Parameters Index identifies an IPsec SA in received IPsec processing and is carried in ESP/AH headers.\n**Relevant Topic:** SA\n**Difficulty:** Easy\n**Keywords:** SPI",
+    "word_count": 33
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 40,
+    "section": "## Q039",
+    "text": "## Q039\n**Question:** Is an IPsec SA bidirectional?\n**Answer:** No. An IPsec SA is unidirectional; normal two-way communication uses separate inbound/outbound SA state.\n**Relevant Topic:** SA\n**Difficulty:** Easy\n**Keywords:** SA direction",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 41,
+    "section": "## Q040",
+    "text": "## Q040\n**Question:** Does ESP always encrypt?\n**Answer:** ESP supports confidentiality but can also be configured for integrity without confidentiality. Confidentiality without integrity is not recommended.\n**Relevant Topic:** ESP\n**Difficulty:** Easy\n**Keywords:** ESP encryption",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 42,
+    "section": "## Q041",
+    "text": "## Q041\n**Question:** What does IKE_SA_INIT do in IKEv2?\n**Answer:** It negotiates initial IKE cryptographic parameters and performs a key exchange, plus other initial capabilities/notifications.\n**Relevant Topic:** IKEv2\n**Difficulty:** Medium\n**Keywords:** IKE_SA_INIT",
+    "word_count": 32
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 43,
+    "section": "## Q042",
+    "text": "## Q042\n**Question:** What does IKE_AUTH do?\n**Answer:** It authenticates the peers and establishes the first CHILD_SA, including traffic selectors and related authorization information.\n**Relevant Topic:** IKEv2\n**Difficulty:** Medium\n**Keywords:** IKE_AUTH",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 44,
+    "section": "## Q043",
+    "text": "## Q043\n**Question:** What is a CHILD_SA?\n**Answer:** A CHILD_SA is an IKEv2 term for an IPsec SA pair protecting traffic under an IKE SA.\n**Relevant Topic:** IKEv2/SA\n**Difficulty:** Medium\n**Keywords:** CHILD_SA",
+    "word_count": 32
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 45,
+    "section": "## Q044",
+    "text": "## Q044\n**Question:** Why should IKEv2 usually be preferred for new deployments?\n**Answer:** It is the modern standardized IKE protocol and has a cleaner exchange model and richer standardized features. Legacy interoperability may still require IKEv1.\n**Relevant Topic:** IKEv2\n**Difficulty:** Easy\n**Keywords:** IKEv2",
+    "word_count": 43
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 46,
+    "section": "## Q045",
+    "text": "## Q045\n**Question:** What is PFS in a CHILD_SA?\n**Answer:** It is the use of an additional fresh DH exchange when creating/rekeying the CHILD_SA, when configured and supported.\n**Relevant Topic:** PFS\n**Difficulty:** Medium\n**Keywords:** CHILD_SA PFS",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 47,
+    "section": "## Q046",
+    "text": "## Q046\n**Question:** What is the role of a traffic selector?\n**Answer:** It defines which source/destination traffic, and sometimes protocol/port combinations, are associated with a CHILD_SA/IPsec policy.\n**Relevant Topic:** SPD\n**Difficulty:** Easy\n**Keywords:** traffic selector",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 48,
+    "section": "## Q047",
+    "text": "## Q047\n**Question:** Why can a route be correct but the VPN still not pass traffic?\n**Answer:** The traffic may not match the IPsec policy/selector, or firewall/NAT processing may prevent protected forwarding.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** routing, selector",
+    "word_count": 40
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 49,
+    "section": "## Q048",
+    "text": "## Q048\n**Question:** What is the difference between IKE proposal and ESP proposal?\n**Answer:** IKE proposal protects IKE control exchanges; ESP/CHILD_SA proposal defines protection for user traffic.\n**Relevant Topic:** Algorithms\n**Difficulty:** Easy\n**Keywords:** IKE proposal, ESP",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 50,
+    "section": "## Q049",
+    "text": "## Q049\n**Question:** What is an AEAD algorithm?\n**Answer:** Authenticated Encryption with Associated Data combines confidentiality and integrity/authentication in one cryptographic construction, such as AES-GCM.\n**Relevant Topic:** Algorithms\n**Difficulty:** Medium\n**Keywords:** AEAD, AES-GCM",
+    "word_count": 33
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 51,
+    "section": "## Q050",
+    "text": "## Q050\n**Question:** Should AES-256-GCM have a separate HMAC?\n**Answer:** No separate HMAC is normally required because GCM is an AEAD mode that provides authentication/integrity along with encryption.\n**Relevant Topic:** Algorithms\n**Difficulty:** Medium\n**Keywords:** GCM, HMAC",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 52,
+    "section": "## Q051",
+    "text": "## Q051\n**Question:** Why is 3DES considered legacy?\n**Answer:** It has a much smaller effective security margin and poor performance compared with modern alternatives, so it should not be selected for new deployments.\n**Relevant Topic:** Best practices\n**Difficulty:** Easy\n**Keywords:** 3DES",
+    "word_count": 41
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 53,
+    "section": "## Q052",
+    "text": "## Q052\n**Question:** Why should SHA-1 generally be avoided for new designs?\n**Answer:** SHA-1 has known collision weaknesses and is legacy for new security designs. Exact interoperability exceptions should be documented and reviewed.\n**Relevant Topic:** Algorithms\n**Difficulty:** Easy\n**Keywords:** SHA-1",
+    "word_count": 40
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 54,
+    "section": "## Q053",
+    "text": "## Q053\n**Question:** What is a crypto map on Cisco IOS?\n**Answer:** It is a vendor-specific policy construct that can associate a peer, transform set, and traffic ACL with an interface.\n**Relevant Topic:** Cisco\n**Difficulty:** Medium\n**Keywords:** crypto map",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 55,
+    "section": "## Q054",
+    "text": "## Q054\n**Question:** What is a Cisco crypto ACL?\n**Answer:** In classic policy-based IOS IPsec, an extended ACL can identify the traffic to be protected by a crypto map.\n**Relevant Topic:** Cisco\n**Difficulty:** Medium\n**Keywords:** crypto ACL",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 56,
+    "section": "## Q055",
+    "text": "## Q055\n**Question:** What is VTI?\n**Answer:** A Virtual Tunnel Interface is a route-based VPN interface model used by some platforms, including Cisco IOS XE, instead of relying only on crypto-map policy.\n**Relevant Topic:** Cisco\n**Difficulty:** Medium\n**Keywords:** VTI",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 57,
+    "section": "## Q056",
+    "text": "## Q056\n**Question:** What is strongSwan?\n**Answer:** strongSwan is an open-source IPsec implementation for Linux and other systems, commonly configured through swanctl or legacy ipsec.conf.\n**Relevant Topic:** strongSwan\n**Difficulty:** Easy\n**Keywords:** strongSwan",
+    "word_count": 32
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 58,
+    "section": "## Q057",
+    "text": "## Q057\n**Question:** What is swanctl.conf?\n**Answer:** It is a strongSwan configuration format used by swanctl to define connections, secrets, and related IPsec/IKE settings.\n**Relevant Topic:** strongSwan\n**Difficulty:** Medium\n**Keywords:** swanctl",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 59,
+    "section": "## Q058",
+    "text": "## Q058\n**Question:** What is ipsec.conf in strongSwan?\n**Answer:** It is a legacy-style strongSwan configuration format supported by the starter/stroke architecture on applicable installations.\n**Relevant Topic:** strongSwan\n**Difficulty:** Medium\n**Keywords:** ipsec.conf",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 60,
+    "section": "## Q059",
+    "text": "## Q059\n**Question:** What should be checked before changing crypto settings?\n**Answer:** Capture the current configuration, identify the exact failure stage, and compare both peers so changes are targeted rather than random.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** change control",
+    "word_count": 40
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 61,
+    "section": "## Q060",
+    "text": "## Q060\n**Question:** Why should configuration examples avoid real secrets?\n**Answer:** A knowledge base can be retrieved and exposed by systems that do not have production security context. Fictional placeholders prevent accidental credential disclosure.\n**Relevant Topic:** RAG Safety\n**Difficulty:** Easy\n**Keywords:** secrets, RAG",
+    "word_count": 43
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 62,
+    "section": "## Q061",
+    "text": "## Q061\n**Question:** What is NAT exemption?\n**Answer:** It is a policy arrangement that prevents selected VPN traffic from being translated when the VPN design requires original inner addresses.\n**Relevant Topic:** NAT\n**Difficulty:** Medium\n**Keywords:** NAT exemption",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 63,
+    "section": "## Q062",
+    "text": "## Q062\n**Question:** Can IPsec protect IPv6?\n**Answer:** Yes. IPsec standards apply to IP and include IPv6 considerations; exact deployment behavior depends on implementation.\n**Relevant Topic:** Fundamentals\n**Difficulty:** Easy\n**Keywords:** IPv6",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 64,
+    "section": "## Q063",
+    "text": "## Q063\n**Question:** Does IPsec replace a firewall?\n**Answer:** No. IPsec provides cryptographic protection and policy mechanisms, while firewalls enforce broader access-control policy.\n**Relevant Topic:** Architecture\n**Difficulty:** Easy\n**Keywords:** firewall",
+    "word_count": 30
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 65,
+    "section": "## Q064",
+    "text": "## Q064\n**Question:** What is anti-replay protection?\n**Answer:** It uses sequence numbers and a receive window to detect and reject replayed protected packets.\n**Relevant Topic:** ESP\n**Difficulty:** Medium\n**Keywords:** anti-replay",
+    "word_count": 30
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 66,
+    "section": "## Q065",
+    "text": "## Q065\n**Question:** What is a security policy action of BYPASS?\n**Answer:** It means matching traffic is permitted to pass without IPsec protection, subject to the policy model.\n**Relevant Topic:** SPD\n**Difficulty:** Medium\n**Keywords:** BYPASS",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 67,
+    "section": "## Q066",
+    "text": "## Q066\n**Question:** What is DISCARD in an IPsec policy?\n**Answer:** It means matching traffic is rejected rather than bypassed or protected.\n**Relevant Topic:** SPD\n**Difficulty:** Easy\n**Keywords:** DISCARD",
+    "word_count": 29
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 68,
+    "section": "## Q067",
+    "text": "## Q067\n**Question:** What does PROTECT mean in the SPD?\n**Answer:** It means matching traffic must receive IPsec protection using an appropriate SA.\n**Relevant Topic:** SPD\n**Difficulty:** Easy\n**Keywords:** PROTECT",
+    "word_count": 30
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 69,
+    "section": "## Q068",
+    "text": "## Q068\n**Question:** Why can overlapping selectors be dangerous?\n**Answer:** The wrong policy may match first or create ambiguous behavior, depending on implementation. Keep selectors explicit and test effective policy.\n**Relevant Topic:** SPD\n**Difficulty:** Medium\n**Keywords:** overlap",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 70,
+    "section": "## Q069",
+    "text": "## Q069\n**Question:** What is an IKE identity?\n**Answer:** It is the identifier used in IKE authentication/authorization, which may differ from the peer's outer IP address.\n**Relevant Topic:** Authentication\n**Difficulty:** Medium\n**Keywords:** IKE identity",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 71,
+    "section": "## Q070",
+    "text": "## Q070\n**Question:** Why can a peer IP be correct but authentication still fail?\n**Answer:** The peer's cryptographic identity is separately validated; an IP address alone does not prove identity.\n**Relevant Topic:** Authentication\n**Difficulty:** Medium\n**Keywords:** identity",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 72,
+    "section": "## Q071",
+    "text": "## Q071\n**Question:** What is certificate-based authentication?\n**Answer:** Peers use certificates and digital signatures backed by a trust relationship to authenticate IKE identities.\n**Relevant Topic:** Authentication\n**Difficulty:** Easy\n**Keywords:** certificates, PKI",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 73,
+    "section": "## Q072",
+    "text": "## Q072\n**Question:** What is a PSK?\n**Answer:** A pre-shared key is secret key material configured on both peers and used for authentication in supported IKE modes.\n**Relevant Topic:** Authentication\n**Difficulty:** Easy\n**Keywords:** PSK",
+    "word_count": 34
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 74,
+    "section": "## Q073",
+    "text": "## Q073\n**Question:** What is DPD/liveness detection?\n**Answer:** Dead Peer Detection or liveness mechanisms help detect an unresponsive peer and clean up or re-establish state, with exact behavior varying by implementation.\n**Relevant Topic:** IKE\n**Difficulty:** Medium\n**Keywords:** DPD",
+    "word_count": 38
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 75,
+    "section": "## Q074",
+    "text": "## Q074\n**Question:** Why might a tunnel repeatedly rekey?\n**Answer:** Possible causes include lifetime mismatch, failed rekey negotiation, peer restart, liveness behavior, or resource/network problems.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** rekey",
+    "word_count": 32
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 76,
+    "section": "## Q075",
+    "text": "## Q075\n**Question:** What is an IKE lifetime?\n**Answer:** It is a policy/implementation setting controlling how long IKE security state is used before rekeying or replacement.\n**Relevant Topic:** IKE\n**Difficulty:** Medium\n**Keywords:** lifetime",
+    "word_count": 33
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 77,
+    "section": "## Q076",
+    "text": "## Q076\n**Question:** What is an IPsec/CHILD_SA lifetime?\n**Answer:** It controls when protected-traffic keys/SAs are rekeyed or replaced, according to implementation policy.\n**Relevant Topic:** SA\n**Difficulty:** Medium\n**Keywords:** lifetime",
+    "word_count": 29
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 78,
+    "section": "## Q077",
+    "text": "## Q077\n**Question:** Why might MTU matter for IPsec?\n**Answer:** Encapsulation adds overhead, reducing effective payload size and potentially causing fragmentation or PMTU problems.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** MTU",
+    "word_count": 31
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 79,
+    "section": "## Q078",
+    "text": "## Q078\n**Question:** Why can ping work while an application fails?\n**Answer:** The application may use ports/protocols excluded by selectors/firewall policy, or encounter MTU, routing, DNS, or service-layer restrictions.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** application",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 80,
+    "section": "## Q079",
+    "text": "## Q079\n**Question:** Why is packet capture useful for IPsec troubleshooting?\n**Answer:** It reveals whether IKE packets reach the peer, whether NAT-T is active, and whether encrypted traffic is flowing, without requiring plaintext visibility on the wire.\n**Relevant Topic:** Troubleshooting\n**Difficulty:** Medium\n**Keywords:** packet capture",
+    "word_count": 45
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 81,
+    "section": "## Q080",
+    "text": "## Q080\n**Question:** Should I expose IKE to every Internet address?\n**Answer:** A gateway must receive IKE from intended peers, but firewall policy can often restrict sources where deployment topology permits. Do not block legitimate roaming clients unintentionally.\n**Relevant Topic:** Firewall\n**Difficulty:** Medium\n**Keywords:** IKE firewall",
+    "word_count": 46
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 82,
+    "section": "## Q081",
+    "text": "## Q081\n**Question:** Can ESP be inspected like HTTP?\n**Answer:** Not on the wire without decryption/context; ESP payload is protected. Network devices can still inspect metadata such as outer addresses and protocol/UDP encapsulation.\n**Relevant Topic:** ESP\n**Difficulty:** Medium\n**Keywords:** inspection",
+    "word_count": 40
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 83,
+    "section": "## Q082",
+    "text": "## Q082\n**Question:** What happens if protocol 50 is blocked but NAT-T is available?\n**Answer:** If NAT-T is negotiated and UDP 4500 is permitted, ESP may be carried inside UDP 4500 instead of native protocol 50.\n**Relevant Topic:** NAT-T\n**Difficulty:** Medium\n**Keywords:** protocol 50",
+    "word_count": 44
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 84,
+    "section": "## Q083",
+    "text": "## Q083\n**Question:** What happens if both peers are behind NAT?\n**Answer:** NAT-T can support the scenario, but peer discovery/addressing and NAT behavior must be compatible with the deployment.\n**Relevant Topic:** NAT-T\n**Difficulty:** Medium\n**Keywords:** double NAT",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 85,
+    "section": "## Q084",
+    "text": "## Q084\n**Question:** Why is AH rarely used for normal VPNs?\n**Answer:** ESP can provide the required confidentiality and integrity services and is more compatible with NAT traversal.\n**Relevant Topic:** AH\n**Difficulty:** Easy\n**Keywords:** AH",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 86,
+    "section": "## Q085",
+    "text": "## Q085\n**Question:** What is the outer IP header in tunnel mode?\n**Answer:** It identifies the IPsec tunnel endpoints, typically the VPN gateways, while the original packet is protected inside.\n**Relevant Topic:** Tunnel Mode\n**Difficulty:** Easy\n**Keywords:** outer header",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 87,
+    "section": "## Q086",
+    "text": "## Q086\n**Question:** What is the inner IP packet in tunnel mode?\n**Answer:** It is the original packet between protected hosts/subnets, encapsulated and protected by ESP.\n**Relevant Topic:** Tunnel Mode\n**Difficulty:** Easy\n**Keywords:** inner packet",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 88,
+    "section": "## Q087",
+    "text": "## Q087\n**Question:** What is split tunneling?\n**Answer:** In remote access, only selected traffic is routed through the VPN while other traffic uses the normal network path.\n**Relevant Topic:** Remote Access\n**Difficulty:** Easy\n**Keywords:** split tunnel",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 89,
+    "section": "## Q088",
+    "text": "## Q088\n**Question:** What is full tunneling?\n**Answer:** In remote access, broad traffic, often including Internet traffic, is routed through the VPN gateway according to policy.\n**Relevant Topic:** Remote Access\n**Difficulty:** Easy\n**Keywords:** full tunnel",
+    "word_count": 35
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 90,
+    "section": "## Q089",
+    "text": "## Q089\n**Question:** Why is least privilege important for VPN selectors?\n**Answer:** A compromised endpoint or credential should have access only to the resources required for its role.\n**Relevant Topic:** Best Practices\n**Difficulty:** Easy\n**Keywords:** least privilege",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 91,
+    "section": "## Q090",
+    "text": "## Q090\n**Question:** What should a secure IPsec knowledge base do when uncertain?\n**Answer:** It should explicitly state uncertainty or vendor-specific scope rather than invent a parameter or command.\n**Relevant Topic:** RAG Safety\n**Difficulty:** Easy\n**Keywords:** uncertainty",
+    "word_count": 37
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 92,
+    "section": "## Q091",
+    "text": "## Q091\n**Question:** Why should vendor syntax be labeled?\n**Answer:** Cisco IOS, strongSwan, Windows, firewalls, and other platforms expose different configuration models and command names.\n**Relevant Topic:** RAG Safety\n**Difficulty:** Easy\n**Keywords:** vendor-specific",
+    "word_count": 33
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 93,
+    "section": "## Q092",
+    "text": "## Q092\n**Question:** What RFC defines the IPsec architecture?\n**Answer:** RFC 4301 defines the Security Architecture for the Internet Protocol.\n**Relevant Topic:** Standards\n**Difficulty:** Easy\n**Keywords:** RFC 4301",
+    "word_count": 28
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 94,
+    "section": "## Q093",
+    "text": "## Q093\n**Question:** What RFC defines ESP?\n**Answer:** RFC 4303 defines the IP Encapsulating Security Payload protocol.\n**Relevant Topic:** Standards\n**Difficulty:** Easy\n**Keywords:** RFC 4303",
+    "word_count": 25
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 95,
+    "section": "## Q094",
+    "text": "## Q094\n**Question:** What RFC defines AH?\n**Answer:** RFC 4302 defines the IP Authentication Header protocol.\n**Relevant Topic:** Standards\n**Difficulty:** Easy\n**Keywords:** RFC 4302",
+    "word_count": 24
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 96,
+    "section": "## Q095",
+    "text": "## Q095\n**Question:** What RFC defines IKEv2?\n**Answer:** RFC 7296 defines IKEv2 and is an Internet Standard, with later updates.\n**Relevant Topic:** Standards\n**Difficulty:** Easy\n**Keywords:** RFC 7296",
+    "word_count": 28
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 97,
+    "section": "## Q096",
+    "text": "## Q096\n**Question:** What RFC defines NAT-T negotiation?\n**Answer:** RFC 3947 defines negotiation of NAT traversal in IKE; RFC 3948 defines UDP encapsulation of ESP packets.\n**Relevant Topic:** Standards\n**Difficulty:** Easy\n**Keywords:** RFC 3947, RFC 3948",
+    "word_count": 36
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 98,
+    "section": "## Q097",
+    "text": "## Q097\n**Question:** What is the role of RFC 8247?\n**Answer:** It gives IKEv2 algorithm implementation requirements and usage guidance and updates RFC 7296.\n**Relevant Topic:** Standards\n**Difficulty:** Medium\n**Keywords:** RFC 8247",
+    "word_count": 32
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 99,
+    "section": "## Q098",
+    "text": "## Q098\n**Question:** What should be logged during IPsec troubleshooting?\n**Answer:** Peer identity, negotiation stage, proposal mismatch indicators, SA establishment/deletion, and counters are useful; secrets and private keys should never be logged.\n**Relevant Topic:** Operations\n**Difficulty:** Medium\n**Keywords:** logging",
+    "word_count": 39
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 100,
+    "section": "## Q099",
+    "text": "## Q099\n**Question:** How should a failed PSK be investigated safely?\n**Answer:** Verify that the correct secret is associated with the intended peer and identity without printing or copying the secret into logs or tickets.\n**Relevant Topic:** Authentication\n**Difficulty:** Medium\n**Keywords:** PSK troubleshooting",
+    "word_count": 43
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 101,
+    "section": "## Q100",
+    "text": "## Q100\n**Question:** A Cisco crypto map is configured but not applied to an interface. What is likely?\n**Answer:** The policy may never be applied to traffic on that interface. Verify interface attachment and platform-specific routing/policy behavior.\n**Relevant Topic:** Cisco\n**Difficulty:** Medium\n**Keywords:** crypto map",
+    "word_count": 45
+  },
+  {
+    "document": "26_ipsec_faq.md",
+    "chunk": 102,
+    "section": "## Authoritative references",
+    "text": "## Authoritative references\n- RFC 4301 — Security Architecture for the Internet Protocol.\n- RFC 4302 — IP Authentication Header.\n- RFC 4303 — IP Encapsulating Security Payload.\n- RFC 7296 — Internet Key Exchange Protocol Version 2.\n- RFC 3947 — Negotiation of NAT-Traversal in the IKE.\n- RFC 3948 — UDP Encapsulation of IPsec ESP Packets.\n- RFC 8247 — IKEv2 Algorithm Implementation Requirements and Usage Guidance.\n- RFC 6071 — IPsec and IKE Document Roadmap.\nVendor-specific references should be checked for the exact Cisco IOS/IOS XE release, strongSwan version, or Windows version in use.",
+    "word_count": 97
+  }
+]

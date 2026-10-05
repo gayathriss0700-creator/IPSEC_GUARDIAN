@@ -1,0 +1,116 @@
+{
+  "rules": {
+    "ike_version": {
+      "name": "IKE Version Check",
+      "recommended": ["IKEv2"],
+      "deprecated": ["IKEv1"],
+      "penalties": {
+        "IKEv1": {
+          "severity": "HIGH",
+          "penalty": 25,
+          "finding": "IKEv1 is legacy and vulnerable to aggressive mode PSK offline cracking and key negotiation flaws."
+        }
+      }
+    },
+    "encryption": {
+      "name": "Encryption Cipher Check",
+      "strong": ["AES-256-GCM", "AES-128-GCM", "AES-256-CBC"],
+      "acceptable": ["AES-128-CBC"],
+      "weak": ["3DES", "DES", "Blowfish", "NULL"],
+      "penalties": {
+        "3DES": {
+          "severity": "CRITICAL",
+          "penalty": 40,
+          "finding": "3DES is vulnerable to Sweet32 64-bit block cipher attacks and deprecated by NIST."
+        },
+        "DES": {
+          "severity": "CRITICAL",
+          "penalty": 50,
+          "finding": "DES uses obsolete 56-bit key length vulnerable to brute force."
+        },
+        "NULL": {
+          "severity": "CRITICAL",
+          "penalty": 60,
+          "finding": "NULL encryption provides no confidentiality."
+        }
+      }
+    },
+    "integrity": {
+      "name": "Integrity Hash Check",
+      "strong": ["SHA-256", "SHA-384", "SHA-512", "AES-GCM"],
+      "weak": ["SHA-1", "MD5"],
+      "penalties": {
+        "SHA-1": {
+          "severity": "HIGH",
+          "penalty": 20,
+          "finding": "SHA-1 has known collision vulnerabilities and is deprecated for cryptographic integrity."
+        },
+        "MD5": {
+          "severity": "CRITICAL",
+          "penalty": 40,
+          "finding": "MD5 is severely broken cryptographically and vulnerable to collision attacks."
+        }
+      }
+    },
+    "dh_group": {
+      "name": "Diffie-Hellman Group Check",
+      "strong": ["Strong group", "Group 14", "Group 19", "Group 20", "Group 21"],
+      "weak": ["Group 1", "Group 2", "Group 5", "None"],
+      "penalties": {
+        "Group 2": {
+          "severity": "HIGH",
+          "penalty": 25,
+          "finding": "DH Group 2 (1024-bit) provides insufficient security margin against state-level precomputation."
+        },
+        "Group 1": {
+          "severity": "CRITICAL",
+          "penalty": 40,
+          "finding": "DH Group 1 (768-bit) is obsolete and vulnerable to precomputation."
+        },
+        "None": {
+          "severity": "CRITICAL",
+          "penalty": 50,
+          "finding": "No DH group configured; key exchange cannot be established securely."
+        }
+      }
+    },
+    "pfs": {
+      "name": "Perfect Forward Secrecy Check",
+      "recommended": "Enabled",
+      "penalties": {
+        "Disabled": {
+          "severity": "HIGH",
+          "penalty": 30,
+          "finding": "PFS is disabled. Compromise of long-term private key exposes all past recorded IPsec sessions."
+        }
+      }
+    },
+    "replay_protection": {
+      "name": "Anti-Replay Protection Check",
+      "recommended": "Enabled",
+      "penalties": {
+        "Disabled": {
+          "severity": "HIGH",
+          "penalty": 25,
+          "finding": "Anti-replay protection is disabled, leaving the tunnel vulnerable to packet replay attacks."
+        }
+      }
+    },
+    "traffic_selectors": {
+      "name": "Traffic Selectors Scope Check",
+      "recommended": ["Limited", "Narrow"],
+      "penalties": {
+        "Any": {
+          "severity": "MEDIUM",
+          "penalty": 15,
+          "finding": "Overly broad traffic selectors increase attack surface and risk unintended traffic redirection."
+        },
+        "0.0.0.0/0": {
+          "severity": "MEDIUM",
+          "penalty": 15,
+          "finding": "Wildcard 0.0.0.0/0 traffic selector allows unconstrained subnet traversal."
+        }
+      }
+    }
+  }
+}

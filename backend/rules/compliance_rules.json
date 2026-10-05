@@ -1,0 +1,32 @@
+{
+  "standards": {
+    "NIST_SP_800_77_R1": {
+      "name": "NIST SP 800-77 Rev 1 (Guide to IPsec VPNs)",
+      "mandatory_controls": [
+        { "field": "ike_version", "expected": ["IKEv2"], "rule": "Require IKEv2 for key management" },
+        { "field": "encryption", "expected": ["AES-256-GCM", "AES-128-GCM", "AES-256-CBC"], "rule": "Use FIPS-approved AES encryption" },
+        { "field": "integrity", "expected": ["SHA-256", "SHA-384", "SHA-512", "AES-GCM"], "rule": "Use SHA-256 or higher HMAC for integrity" },
+        { "field": "dh_group", "expected": ["Strong group", "Group 14", "Group 19", "Group 20"], "rule": "Require Minimum 2048-bit DH Group (Group 14+)" },
+        { "field": "pfs", "expected": ["Enabled"], "rule": "Require Perfect Forward Secrecy (PFS) for Child SAs" },
+        { "field": "replay_protection", "expected": ["Enabled"], "rule": "Enable Anti-Replay sequence window protection" }
+      ]
+    },
+    "NSA_CNSA_1_0": {
+      "name": "NSA Commercial National Security Algorithm (CNSA 1.0)",
+      "mandatory_controls": [
+        { "field": "encryption", "expected": ["AES-256-GCM"], "rule": "AES-256 required for classified transport" },
+        { "field": "integrity", "expected": ["SHA-384", "SHA-512"], "rule": "SHA-384 or higher required" },
+        { "field": "authentication", "expected": ["Certificate"], "rule": "Public-Key Certificate authentication required" },
+        { "field": "dh_group", "expected": ["Strong group", "Group 19", "Group 20"], "rule": "ECDH Curve P-384 (Group 19/20) or 3072-bit DH" }
+      ]
+    },
+    "DoD_STIG_VPN": {
+      "name": "DoD STIG IPsec Gateway Baseline",
+      "mandatory_controls": [
+        { "field": "ike_version", "expected": ["IKEv2"], "rule": "IKEv1 is non-compliant with DoD STIG" },
+        { "field": "pfs", "expected": ["Enabled"], "rule": "PFS must be forced on all SAs" },
+        { "field": "replay_protection", "expected": ["Enabled"], "rule": "Anti-replay window size must be enabled" }
+      ]
+    }
+  }
+}
